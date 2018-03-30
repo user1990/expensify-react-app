@@ -7,7 +7,6 @@ import ExpenseForm from '../Forms/ExpenseForm';
 
 class AddExpensePage extends Component {
   onSubmit = expense => {
-    console.log(expense);
     this.props.addExpense(expense);
     this.props.history.push('/');
   };

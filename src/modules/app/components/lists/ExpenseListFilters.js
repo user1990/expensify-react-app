@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-// import { DateRangePicker } from 'react-dates';
+import { DateRangePicker } from 'react-dates';
 import {
   setTextFilter,
   sortByDate,
@@ -38,8 +38,7 @@ class ExpenseListFilters extends Component {
   };
 
   render() {
-    // const { setTextFilter, sortByDate, sortByAmount } = this.props;
-    const { text, sortBy } = this.props.filters;
+    const { text, sortBy, startDate, endDate } = this.props.filters;
 
     return (
       <div>
@@ -48,16 +47,16 @@ class ExpenseListFilters extends Component {
           <option value="date">Date</option>
           <option value="amount">Amount</option>
         </select>
-        {/* <DateRangePicker
-          startDate={this.props.filters.startDate}
-          endDate={this.props.filters.endDate}
+        <DateRangePicker
+          startDate={startDate}
+          endDate={endDate}
           onDatesChange={this.handleOnDatesChange}
           focusedInput={this.state.calendarFocused}
           onFocusChange={this.handleOnFocusChange}
           showClearDates
           numberOfMonths={1}
           isOutsideRange={() => false}
-        /> */}
+        />
       </div>
     );
   }
@@ -75,7 +74,7 @@ ExpenseListFilters.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  setTextFilter: () => dispatch(setTextFilter()),
+  setTextFilter: text => dispatch(setTextFilter(text)),
   sortByDate: () => dispatch(sortByDate()),
   sortByAmount: () => dispatch(sortByAmount()),
   setStartDate: startDate => dispatch(setStartDate(startDate)),

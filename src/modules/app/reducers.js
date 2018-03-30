@@ -47,7 +47,7 @@ export const editExpense = (id, updates) => ({
   updates,
 });
 
-// Filter
+// Filters
 export const setTextFilter = (text = '') => ({
   type: actionTypes.SET_TEXT_FILTER,
   text,
@@ -147,10 +147,13 @@ export const filtersReducer = (
 export const getVisibleExpenses = (expenses, filters) => {
   return expenses
     .filter(expense => {
-      const startDateMatch =
-        typeof startDate !== 'number' || expense.createdAt >= startDate;
-      const endDateMatch =
-        typeof endate !== 'number' || expense.createdAt <= endDate;
+      const createdAtMoment = moment(expense.createdAt);
+      const startDateMatch = startDate
+        ? startDate.isSameOrBefore(createdAtMoment, 'day')
+        : true;
+      const endDateMatch = endDate
+        ? startDate.isSameOrAfter(createdAtMoment, 'day')
+        : true;
       const textMatch = expense.description
         .toLowerCase()
         .includes(text.toLowerCase());
