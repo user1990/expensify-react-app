@@ -144,7 +144,7 @@ export const filtersReducer = (
 ///// SELECTORS /////
 
 // Get visible expenses
-export const getVisibleExpenses = (expenses, filters) => {
+export default (expenses, { text, sortBy, startDate, endDate }) => {
   return expenses
     .filter(expense => {
       const createdAtMoment = moment(expense.createdAt);
@@ -152,7 +152,7 @@ export const getVisibleExpenses = (expenses, filters) => {
         ? startDate.isSameOrBefore(createdAtMoment, 'day')
         : true;
       const endDateMatch = endDate
-        ? startDate.isSameOrAfter(createdAtMoment, 'day')
+        ? endDate.isSameOrAfter(createdAtMoment, 'day')
         : true;
       const textMatch = expense.description
         .toLowerCase()

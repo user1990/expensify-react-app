@@ -1,4 +1,4 @@
-
+/* eslint-disable */
 
 const autoprefixer = require('autoprefixer');
 const path = require('path');
@@ -90,7 +90,6 @@ module.exports = {
     // for React Native Web.
     extensions: ['.web.js', '.mjs', '.js', '.json', '.web.jsx', '.jsx'],
     alias: {
-
       // Support React Native Web
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
@@ -121,7 +120,6 @@ module.exports = {
             options: {
               formatter: eslintFormatter,
               eslintPath: require.resolve('eslint'),
-
             },
             loader: require.resolve('eslint-loader'),
           },
@@ -149,7 +147,6 @@ module.exports = {
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
             options: {
-
               compact: true,
             },
           },
@@ -216,17 +213,21 @@ module.exports = {
           // When you `import` an asset, you get its filename.
           // This loader doesn't use a "test" so it will catch all modules
           // that fall through the other loaders.
-           // Sass
-           {
+          // Sass
+          {
             test: /\.scss$/,
             include: paths.appSrc,
-            use: [{
-                loader: "style-loader" // creates style nodes from JS strings
-            }, {
-                loader: "css-loader" // translates CSS into CommonJS
-            }, {
-                loader: "sass-loader" // compiles Sass to CSS
-            }]
+            use: [
+              {
+                loader: 'style-loader', // creates style nodes from JS strings
+              },
+              {
+                loader: 'css-loader', // translates CSS into CommonJS
+              },
+              {
+                loader: 'sass-loader', // compiles Sass to CSS
+              },
+            ],
           },
           {
             loader: require.resolve('file-loader'),
@@ -243,7 +244,7 @@ module.exports = {
               /\.gif$/,
               /\.jpe?g$/,
               /\.png$/,
-              /\.scss$/
+              /\.scss$/,
             ],
             options: {
               name: 'static/media/[name].[hash:8].[ext]',

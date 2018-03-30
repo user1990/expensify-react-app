@@ -4,10 +4,11 @@ const path = require('path');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
+const publicPath = path.join(__dirname, '..', 'public');
 const app = express();
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  res.sendFile(path.join(publicPath, 'index.html'));
 });
 
 // Middleware
