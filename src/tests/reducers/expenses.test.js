@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-import expensesReducer from '../../modules/app/reducers';
 import expenses from '../fixtures/expenses';
+import { expensesReducer } from '../../modules/app/reducers';
 
 // Set default state
 test('should set default state', () => {
@@ -11,7 +11,7 @@ test('should set default state', () => {
 // Remove expense by id
 test('should remove expense by id', () => {
   const action = {
-    type: 'REMOVE_EXPENSE',
+    type: 'REMOVE/EXPENSE',
     id: expenses[1].id,
   };
   const state = expensesReducer(expenses, action);
@@ -21,7 +21,7 @@ test('should remove expense by id', () => {
 // Not remove expenses if id not found
 test('should not remove expenses if id not found', () => {
   const action = {
-    type: 'REMOVE_EXPENSE',
+    type: 'REMOVE/EXPENSE',
     id: '-1',
   };
   const state = expensesReducer(expenses, action);
@@ -38,7 +38,7 @@ test('should add an expense', () => {
     amount: 29500,
   };
   const action = {
-    type: 'ADD_EXPENSE',
+    type: 'ADD/EXPENSE',
     expense,
   };
   const state = expensesReducer(expenses, action);
@@ -49,7 +49,7 @@ test('should add an expense', () => {
 test('should edit an expense', () => {
   const amount = 122000;
   const action = {
-    type: 'EDIT_EXPENSE',
+    type: 'EDIT/EXPENSE',
     id: expenses[1].id,
     updates: {
       amount,
@@ -63,7 +63,7 @@ test('should edit an expense', () => {
 test('should not edit an expense if id not found', () => {
   const amount = 122000;
   const action = {
-    type: 'EDIT_EXPENSE',
+    type: 'EDIT/EXPENSE',
     id: '-1',
     updates: {
       amount,
