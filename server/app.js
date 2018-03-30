@@ -7,6 +7,8 @@ const bodyParser = require('body-parser');
 const publicPath = path.join(__dirname, '..', 'public');
 const app = express();
 
+app.use(express.static(publicPath));
+
 app.get('/*', (req, res) => {
   res.sendFile(path.join(publicPath, 'index.html'));
 });
