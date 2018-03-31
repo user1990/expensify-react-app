@@ -27,7 +27,7 @@ AddExpensePage.propTypes = {
 };
 
 const mapDispatchToProps = dispatch => ({
-  addExpense: expense => dispatch(startAddExpense(expense)),
+  startAddExpense: expense => dispatch(startAddExpense(expense)),
 });
 
 const AddExpensePageContainer = connect(null, mapDispatchToProps)(

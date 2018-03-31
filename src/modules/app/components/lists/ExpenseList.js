@@ -7,7 +7,6 @@ import ExpenseListItem from './ExpenseListItem';
 
 const ExpenseList = props => (
   <div>
-    {console.log(props)}
     <h1>Expense List</h1>
     {props.expenses &&
       props.expenses.map(expense => (
