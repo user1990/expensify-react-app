@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addExpense } from '../../reducers';
+import { startAddExpense } from '../../reducers';
 import ExpenseForm from '../Forms/ExpenseForm';
 
 class AddExpensePage extends Component {
   onSubmit = expense => {
-    this.props.addExpense(expense);
+    this.props.startAddExpense(expense);
     this.props.history.push('/');
   };
 
@@ -22,12 +22,12 @@ class AddExpensePage extends Component {
 }
 
 AddExpensePage.propTypes = {
-  addExpense: PropTypes.func.isRequired,
+  startAddExpense: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired,
 };
 
 const mapDispatchToProps = dispatch => ({
-  addExpense: expense => dispatch(addExpense(expense)),
+  addExpense: expense => dispatch(startAddExpense(expense)),
 });
 
 const AddExpensePageContainer = connect(null, mapDispatchToProps)(

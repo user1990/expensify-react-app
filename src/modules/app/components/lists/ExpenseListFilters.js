@@ -63,11 +63,11 @@ class ExpenseListFilters extends Component {
 }
 
 ExpenseListFilters.propTypes = {
-  setTextFilter: PropTypes.string.isRequired,
-  sortByDate: PropTypes.string.isRequired,
-  sortByAmount: PropTypes.string.isRequired,
-  setStartDate: PropTypes.string.isRequired,
-  setEndDate: PropTypes.string.isRequired,
+  setTextFilter: PropTypes.func.isRequired,
+  sortByDate: PropTypes.func.isRequired,
+  sortByAmount: PropTypes.func.isRequired,
+  setStartDate: PropTypes.func.isRequired,
+  setEndDate: PropTypes.func.isRequired,
   text: PropTypes.string.isRequired,
   sortBy: PropTypes.string.isRequired,
   filters: PropTypes.object.isRequired,

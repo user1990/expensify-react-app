@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import { AppContainer } from 'react-hot-loader';
 import configureStore from './modules/app/configureStore';
 import App from './modules/app/App';
-import registerServiceWorker from './registerServiceWorker';
+import './firebase/firebase';
 
 require('react-hot-loader/patch');
 
@@ -32,5 +32,3 @@ if (module.hot) {
     render(App);
   });
 }
-
-registerServiceWorker();

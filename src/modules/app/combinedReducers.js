@@ -3,5 +3,5 @@ import { expensesReducer, filtersReducer } from './reducers';
 
 export default combineReducers({
   expenses: expensesReducer,
-  filter: filtersReducer,
+  filters: filtersReducer,
 });

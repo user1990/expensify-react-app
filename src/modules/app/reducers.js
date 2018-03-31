@@ -1,9 +1,7 @@
 /* eslint-disable spaced-comment */
-/* eslint-disable */
-//import api from '../../services/api';
 import moment from 'moment';
 import uuid from 'uuid';
-import { firebase, googleAuthProvider } from '../../firebase/firebase';
+import database from '../../firebase/firebase';
 
 ///// CONSTANTS /////
 export const actionTypes = {
@@ -19,28 +17,43 @@ export const actionTypes = {
 };
 
 ///// ACTIONS /////
+
 // Expenses
-export const addExpense = ({
-  description = '',
-  note = '',
-  amount = 0,
-  createdAt = 0,
-} = {}) => ({
+// ADD_EXPENSE
+export const addExpense = expense => ({
   type: actionTypes.ADD_EXPENSE,
-  expense: {
-    id: uuid(),
-    description,
-    note,
-    amount,
-    createdAt,
-  },
+  expense,
 });
 
+export const startAddExpense = (expenseData = {}) => dispatch => {
+  const {
+    description = '',
+    note = '',
+    amount = 0,
+    createdAt = 0,
+  } = expenseData;
+  const expense = { description, note, amount, createdAt };
+
+  return database
+    .ref('expenses')
+    .push(expense)
+    .then(ref => {
+      dispatch(
+        addExpense({
+          id: ref.key,
+          ...expense,
+        })
+      );
+    });
+};
+
+// REMOVE_EXPENSE
 export const removeExpense = ({ id } = {}) => ({
   type: actionTypes.REMOVE_EXPENSE,
   id,
 });
 
+// EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
   type: actionTypes.EDIT_EXPENSE,
   id,
@@ -73,7 +86,7 @@ export const setEndDate = endDate => ({
 });
 
 ///// REDUCERS /////
-// Expenses Reducer
+// Expenses
 export const expensesReducer = (expenses = [], action) => {
   switch (action.type) {
     case actionTypes.ADD_EXPENSE:
@@ -89,9 +102,8 @@ export const expensesReducer = (expenses = [], action) => {
             ...expense,
             ...action.updates,
           };
-        } else {
-          return expense;
         }
+        return expense;
       });
     default:
       return expenses;
@@ -139,32 +151,4 @@ export const filtersReducer = (
     default:
       return filters;
   }
-};
-
-///// SELECTORS /////
-
-// Get visible expenses
-export default (expenses, { text, sortBy, startDate, endDate }) => {
-  return expenses
-    .filter(expense => {
-      const createdAtMoment = moment(expense.createdAt);
-      const startDateMatch = startDate
-        ? startDate.isSameOrBefore(createdAtMoment, 'day')
-        : true;
-      const endDateMatch = endDate
-        ? endDate.isSameOrAfter(createdAtMoment, 'day')
-        : true;
-      const textMatch = expense.description
-        .toLowerCase()
-        .includes(text.toLowerCase());
-
-      return startDateMatch && endDateMatch && textMatch;
-    })
-    .sort((a, b) => {
-      if (sortBy === 'date') {
-        return a.createdAt < b.createdAt ? 1 : -1;
-      } else if (sortBy === 'amount') {
-        return a.amount < b.amount ? 1 : -1;
-      }
-    });
 };
