@@ -32,6 +32,6 @@ const mapDispatchToProps = dispatch => ({
   startLogin: () => dispatch(startLogin()),
 });
 
-const LoginPageContainer = connect(null, mapDispatchToProps)(LoginPage);
+const LoginPageContainer = connect(undefined, mapDispatchToProps)(LoginPage);
 
 export default LoginPageContainer;

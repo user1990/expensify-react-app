@@ -1,13 +1,21 @@
 /* eslint-disable spaced-comment */
 import moment from 'moment';
 import uuid from 'uuid';
-import database from '../../firebase/firebase';
+import {
+  firebase,
+  googleAuthProvider,
+  database,
+} from '../../firebase/firebase';
 
 ///// CONSTANTS /////
 export const actionTypes = {
+  USER_LOGIN: 'USER/LOGIN',
+  USER_LOGOUT: 'USER/LOGOUT',
+
   ADD_EXPENSE: 'ADD/EXPENSE',
   REMOVE_EXPENSE: 'REMOVE/EXPENSE',
   EDIT_EXPENSE: 'EDIT/EXPENSE',
+  SET_EXPENSE: 'SET/EXPENSE',
 
   SET_TEXT_FILTER: 'SET/TEXT_FILTER',
   SORT_BY_AMOUNT: 'SORT/BY_AMOUNT',
@@ -17,6 +25,20 @@ export const actionTypes = {
 };
 
 ///// ACTIONS /////
+// Auth
+export const login = uid => ({
+  type: actionTypes.USER_LOGIN,
+  uid,
+});
+
+export const startLogin = () => () =>
+  firebase.auth().signInWithPopup(googleAuthProvider);
+
+export const logout = () => ({
+  type: actionTypes.USER_LOGOUT,
+});
+
+export const startLogout = () => () => firebase.auth().signOut();
 
 // Expenses
 // ADD_EXPENSE
@@ -53,12 +75,51 @@ export const removeExpense = ({ id } = {}) => ({
   id,
 });
 
+export const startRemoveExpense = ({ id } = {}) => dispatch =>
+  database
+    .ref(`expenses/${id}`)
+    .remove()
+    .then(() => {
+      dispatch(removeExpense({ id }));
+    });
+
 // EDIT_EXPENSE
 export const editExpense = (id, updates) => ({
   type: actionTypes.EDIT_EXPENSE,
   id,
   updates,
 });
+
+export const startEditExpense = (id, updates) => dispatch =>
+  database
+    .ref(`expenses/${id}`)
+    .update(updates)
+    .then(() => {
+      dispatch(editExpense(id, updates));
+    });
+
+// SET_EXPENSES
+export const setExpenses = expenses => ({
+  type: actionTypes.SET_EXPENSES,
+  expenses,
+});
+
+export const startSetExpenses = () => dispatch =>
+  database
+    .ref('expenses')
+    .once('value')
+    .then(snapshot => {
+      const expenses = [];
+
+      snapshot.forEach(childSnapshot => {
+        expenses.push({
+          id: childSnapshot.key,
+          ...childSnapshot.val(),
+        });
+      });
+
+      dispatch(setExpenses(expenses));
+    });
 
 // Filters
 export const setTextFilter = (text = '') => ({

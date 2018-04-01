@@ -1,34 +1,46 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { BrowserRouter, Route } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
+import createHistory from 'history/createBrowserHistory';
 import { Provider } from 'react-redux';
-import { AppContainer } from 'react-hot-loader';
 import configureStore from './modules/app/configureStore';
 import App from './modules/app/App';
-import './firebase/firebase';
+import { login, logout, startSetExpenses } from './modules/app/reducers';
+import { firebase } from './firebase/firebase';
 
-require('react-hot-loader/patch');
-
+const history = createHistory();
 const store = configureStore();
+const app = (
+  <Provider store={store}>
+    <Router history={history}>
+      <Route component={App} />
+    </Router>
+  </Provider>
+);
 
-function render(App) {
-  ReactDOM.render(
-    <AppContainer>
-      <Provider store={store}>
-        <BrowserRouter>
-          <Route component={App} />
-        </BrowserRouter>
-      </Provider>
-    </AppContainer>,
-    document.getElementById('root')
-  );
-}
+let hasRendered = false;
+const renderApp = () => {
+  if (!hasRendered) {
+    ReactDOM.render(app, document.getElementById('app'));
+    hasRendered = true;
+  }
+};
 
-render(App);
+ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
 
-if (module.hot) {
-  module.hot.accept('./modules/app/App', () => {
-    render(App);
-  });
-}
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    store.dispatch(login(user.uid));
+    store.dispatch(startSetExpenses()).then(() => {
+      renderApp();
+      if (history.location.pathname === '/') {
+        history.push('/dashboard');
+      }
+    });
+  } else {
+    store.dispatch(logout());
+    renderApp();
+    history.push('/');
+  }
+});

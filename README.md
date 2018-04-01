@@ -4,9 +4,11 @@ Expenses manager application builded with React/Redux and SASS.
 
 ## Features
 
-- React/Redux
+- React v16.3
+- React Router v4
+- Redux
+- Webpack
 - SASS
-- React Router / Client side routing
 - Firebase
 - User accounts
 - Google oAuth
