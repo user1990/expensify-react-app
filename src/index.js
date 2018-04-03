@@ -1,24 +1,25 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Router, Route } from 'react-router-dom';
-import createHistory from 'history/createBrowserHistory';
+import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import 'react-dates/lib/css/_datepicker.css';
+import 'normalize.css/normalize.css';
+import './styles/styles.scss';
 import configureStore from './modules/app/configureStore';
-import App from './modules/app/App';
+import AppRouter, { history } from './modules/app/components/routes/AppRouter';
 import { login, logout, startSetExpenses } from './modules/app/reducers';
 import { firebase } from './firebase/firebase';
+import LoadingPage from './modules/app/components/pages/LoadingPage';
 
-const history = createHistory();
 const store = configureStore();
 const app = (
   <Provider store={store}>
     <Router history={history}>
-      <Route component={App} />
+      <AppRouter />
     </Router>
   </Provider>
 );
-
 let hasRendered = false;
 const renderApp = () => {
   if (!hasRendered) {
@@ -27,7 +28,7 @@ const renderApp = () => {
   }
 };
 
-ReactDOM.render(<p>Loading...</p>, document.getElementById('app'));
+ReactDOM.render(<LoadingPage />, document.getElementById('app'));
 
 firebase.auth().onAuthStateChanged(user => {
   if (user) {

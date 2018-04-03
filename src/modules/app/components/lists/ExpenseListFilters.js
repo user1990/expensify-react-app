@@ -41,22 +41,41 @@ class ExpenseListFilters extends Component {
     const { text, sortBy, startDate, endDate } = this.props.filters;
 
     return (
-      <div>
-        <input type="text" value={text} onChange={this.handleOnInputChange} />
-        <select value={sortBy} onChange={this.handleOnSelectChange}>
-          <option value="date">Date</option>
-          <option value="amount">Amount</option>
-        </select>
-        <DateRangePicker
-          startDate={startDate}
-          endDate={endDate}
-          onDatesChange={this.handleOnDatesChange}
-          focusedInput={this.state.calendarFocused}
-          onFocusChange={this.handleOnFocusChange}
-          showClearDates
-          numberOfMonths={1}
-          isOutsideRange={() => false}
-        />
+      <div className="content-container">
+        <div className="input-group">
+          <div className="input-group__item">
+            <input
+              type="text"
+              className="text-input"
+              placeholder="Search expenses"
+              value={text}
+              onChange={this.handleOnInputChange}
+            />
+          </div>
+          <div className="input-group__item">
+            <select
+              className="select"
+              value={sortBy}
+              onChange={this.handleOnSelectChange}
+            >
+              <option value="date">Date</option>
+              <option value="amount">Amount</option>
+            </select>
+          </div>
+          <div className="input-group__item">
+            <DateRangePicker
+              startDate={startDate}
+              endDate={endDate}
+              onDatesChange={this.handleOnDatesChange}
+              focusedInput={this.state.calendarFocused}
+              onFocusChange={this.handleOnFocusChange}
+              // eslint-disable-next-line
+              showClearDates
+              numberOfMonths={1}
+              isOutsideRange={() => false}
+            />
+          </div>
+        </div>
       </div>
     );
   }

@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import { SingleDatePicker } from 'react-dates';
-import 'react-dates/initialize';
-import 'react-dates/lib/css/_datepicker.css';
 
 class ExpenseForm extends Component {
   constructor(props) {
@@ -58,7 +56,6 @@ class ExpenseForm extends Component {
       }));
     } else {
       this.setState(() => ({ error: '' }));
-      console.log('Submitted!');
       this.props.onSubmit({
         description: this.state.description,
         amount: parseFloat(this.state.amount, 10) * 100,
@@ -80,17 +77,19 @@ class ExpenseForm extends Component {
 
     return (
       <div>
-        {error && <p>{error}</p>}
-        <form onSubmit={this.handleOnFormSubmit}>
+        <form className="form" onSubmit={this.handleOnFormSubmit}>
+          {error && <p className="form__error">{error}</p>}
           <input
             type="text"
             placeholder="Description"
+            className="text-input"
             value={description}
             onChange={this.handleOnDescriptionChange}
           />
           <input
             type="number"
             placeholder="Amount"
+            className="text-input"
             value={amount}
             onChange={this.handleOnAmountChange}
           />
@@ -108,10 +107,11 @@ class ExpenseForm extends Component {
             cols="30"
             rows="10"
             placeholder="Add a note for your xpense (optional)"
+            className="textarea"
             value={note}
             onChange={this.handleOnNoteChange}
           />
-          <button>Add Expense</button>
+          <button className="button">Add Expense</button>
         </form>
       </div>
     );
