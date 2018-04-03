@@ -1,6 +1,6 @@
 # Expensify
 
-Expenses manager application builded with React/Redux and SASS.
+Expenses manager application builded with React/Redux and SASS. [Demo](https://expensify-site.herokuapp.com/).
 
 ## Features
 
