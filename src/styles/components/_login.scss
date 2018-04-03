@@ -1,0 +1,20 @@
+.login-layout {
+  background: url('/images/bg.jpg') center/cover no-repeat border-box;
+  height: $full-height;
+  width: $full-width;
+
+  @include absCenter;
+}
+
+.login-layout__box {
+  background: fade-out($color-white, .15);
+  border-radius: 3px;
+  padding: $l-size $m-size;
+  text-align: center;
+  width: 25rem;
+}
+
+.login-layout__title {
+  margin: 0 0 $m-size 0;
+  line-height: 1;
+}

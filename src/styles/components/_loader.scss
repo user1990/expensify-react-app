@@ -1,0 +1,11 @@
+.loader {
+  height: $full-height;
+  width: $full-width;
+
+  @include absCenter;
+}
+
+.loader__image {
+  height: $loader-size;
+  width: $loader-size;
+}
