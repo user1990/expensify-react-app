@@ -6,4 +6,4 @@
 # production
 /build
 public/dist/
-.env.dev
+.env
